@@ -359,4 +359,6 @@ https://greatist.com/eat/what-is-the-difference-between-bittersweet-chocolate-an
 5.Chocolate Bar Ratings, https://www.kaggle.com/rtatman/chocolate-bar-ratings
 Note: I can a lot of inspiration from NO.4 &NO.5, after my finish the 1st version of my code, I made some adjustments based on some codes and logic, I truly appreciate it but all the codes of my final version are created by myself.
 
+Cheers!
+
 
