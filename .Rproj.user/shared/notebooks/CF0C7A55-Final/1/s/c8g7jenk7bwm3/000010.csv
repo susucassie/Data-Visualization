@@ -1,0 +1,8 @@
+"0","chocolate_cor <- data.frame(ChocolateData$ReviewDate, ChocolateData$CocoaPct, ChocolateData$Rating)"
+"0","names(chocolate_cor)[1:3] <- c(""Review Date"", ""Cocoa Percent"", ""Rating"")"
+"0",""
+"0","chocolate_cor <- round(cor(chocolate_cor), 3)"
+"0",""
+"0","chocolate_cor %>%"
+"0","  kbl(caption = ""The relationship between Rating, Review date and Cocoa Percent"", digits= 3) %>% "
+"0","  kable_classic( html=""Cambria"", full_width=FALSE)"

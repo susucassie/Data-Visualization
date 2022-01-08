@@ -1,0 +1,512 @@
+grid_1 <- arrangeGrob(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, ncol = 2)
+ggsave(grid_1, file = here("plots/grid_1.png"), height = 9, dpi = 200)
+display(grid_1)
+plot_1 <- dist_bar_plot(ChocolateData, Company, 10)
+plot_2 <- dist_bar_plot(ChocolateData, BarOrigin, 10)
+plot_3 <- dist_bar_plot(ChocolateData, ReviewDate, 10)
+plot_4 <- dist_bar_plot(ChocolateData, Loc, 10)
+plot_5 <- dist_bar_plot(ChocolateData, Type, 10)
+plot_6 <- dist_bar_plot(ChocolateData, BeanOrigin, 10)
+grid_1 <- arrangeGrob(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, ncol = 2)
+ggsave(grid_1, file = here("plots/grid_1.png"), height = 9, dpi = 200)
+print(plot_1)
+print(plot_2)
+print(plot_3)
+print(plot_4)
+print(plot_5)
+print(plot_6)
+plot_1 <- dist_bar_plot(ChocolateData, Company, 10)
+plot_2 <- dist_bar_plot(ChocolateData, BarOrigin, 10)
+plot_3 <- dist_bar_plot(ChocolateData, ReviewDate, 10)
+plot_4 <- dist_bar_plot(ChocolateData, Loc, 10)
+plot_5 <- dist_bar_plot(ChocolateData, Type, 10)
+plot_6 <- dist_bar_plot(ChocolateData, BeanOrigin, 10)
+grid_1 <- arrangeGrob(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, ncol = 2)
+ggsave(grid_1, file = here("plots/grid_1.png"), height = 9, dpi = 200)
+print(plot_1)
+print(plot_2)
+print(plot_3)
+print(plot_4)
+print(plot_5)
+print(plot_6)
+par(mfrow = c(3, 3)
+plot_1 <- dist_bar_plot(ChocolateData, Company, 10)
+plot_2 <- dist_bar_plot(ChocolateData, BarOrigin, 10)
+plot_3 <- dist_bar_plot(ChocolateData, ReviewDate, 10)
+plot_4 <- dist_bar_plot(ChocolateData, Loc, 10)
+plot_5 <- dist_bar_plot(ChocolateData, Type, 10)
+plot_6 <- dist_bar_plot(ChocolateData, BeanOrigin, 10)
+grid_1 <- arrangeGrob(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, ncol = 2)
+ggsave(grid_1, file = here("plots/grid_1.png"), height = 9, dpi = 200)
+print(plot_1)
+print(plot_2)
+print(plot_3)
+print(plot_4)
+print(plot_5)
+print(plot_6)
+par(mfrow = c(3, 3))
+par(mfrow = c(3, 3))
+plot_1 <- dist_bar_plot(ChocolateData, Company, 10)
+plot_2 <- dist_bar_plot(ChocolateData, BarOrigin, 10)
+plot_3 <- dist_bar_plot(ChocolateData, ReviewDate, 10)
+plot_4 <- dist_bar_plot(ChocolateData, Loc, 10)
+plot_5 <- dist_bar_plot(ChocolateData, Type, 10)
+plot_6 <- dist_bar_plot(ChocolateData, BeanOrigin, 10)
+grid_1 <- arrangeGrob(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, ncol = 2)
+ggsave(grid_1, file = here("plots/grid_1.png"), height = 9, dpi = 200)
+par(mfrow = c(3, 3))
+plot_1 <- dist_bar_plot(ChocolateData, Company, 10, main = "Top left")
+par(mfrow = c(3, 3))
+plot_1 <- dist_bar_plot(ChocolateData, Company, 10, )
+plot_1 <- dist_bar_plot(ChocolateData, Company, 10, )
+plot_1 <- dist_bar_plot(ChocolateData, Company, 10)
+plot_2 <- dist_bar_plot(ChocolateData, BarOrigin, 10)
+plot_3 <- dist_bar_plot(ChocolateData, ReviewDate, 10)
+plot_4 <- dist_bar_plot(ChocolateData, Loc, 10)
+plot_5 <- dist_bar_plot(ChocolateData, Type, 10)
+plot_6 <- dist_bar_plot(ChocolateData, BeanOrigin, 10)
+grid_1 <- arrangeGrob(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, ncol = 2)
+ggsave(grid_1, file = here("plots/grid_1.png"), height = 9, dpi = 200)
+knitr::include_graphics(here("/plots/grid_2.png"))
+plot_1 <- dist_bar_plot(ChocolateData, Company, 10)
+plot_2 <- dist_bar_plot(ChocolateData, BarOrigin, 10)
+plot_3 <- dist_bar_plot(ChocolateData, ReviewDate, 10)
+plot_4 <- dist_bar_plot(ChocolateData, Loc, 10)
+plot_5 <- dist_bar_plot(ChocolateData, Type, 10)
+plot_6 <- dist_bar_plot(ChocolateData, BeanOrigin, 10)
+grid_1 <- arrangeGrob(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, ncol = 2)
+ggsave(grid_1, file = here("plots/grid_1.png"), height = 9, dpi = 200)
+knitr::include_graphics(here("/plots/grid_1.png"))
+setwd("~/Documents/UT学习/21FA/R/Week14/Final")
+plot_1 <- dist_bar_plot(ChocolateData, Company, 10)
+plot_2 <- dist_bar_plot(ChocolateData, BarOrigin, 10)
+plot_3 <- dist_bar_plot(ChocolateData, ReviewDate, 10)
+plot_4 <- dist_bar_plot(ChocolateData, Loc, 10)
+plot_5 <- dist_bar_plot(ChocolateData, Type, 10)
+plot_6 <- dist_bar_plot(ChocolateData, BeanOrigin, 10)
+grid_1 <- arrangeGrob(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, ncol = 2)
+ggsave(grid_1, file = here("plots/grid_1.png"), height = 9, dpi = 200)
+knitr::include_graphics(here("/plots/grid_1.png"))
+plot_1 <- dist_bar_plot(ChocolateData, Company, 10)
+plot_2 <- dist_bar_plot(ChocolateData, BarOrigin, 10)
+plot_3 <- dist_bar_plot(ChocolateData, ReviewDate, 10)
+plot_4 <- dist_bar_plot(ChocolateData, Loc, 10)
+plot_5 <- dist_bar_plot(ChocolateData, Type, 10)
+plot_6 <- dist_bar_plot(ChocolateData, BeanOrigin, 10)
+grid_1 <- arrangeGrob(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, ncol = 2)
+ggsave(grid_1, file = here("plots/grid_1.png"), height = 9, dpi = 200)
+knitr::include_graphics(here("plots/grid_1.png"))
+plot_1 <- dist_bar_plot(ChocolateData, Company, 10)
+plot_2 <- dist_bar_plot(ChocolateData, BarOrigin, 10)
+plot_3 <- dist_bar_plot(ChocolateData, ReviewDate, 10)
+plot_4 <- dist_bar_plot(ChocolateData, Loc, 10)
+plot_5 <- dist_bar_plot(ChocolateData, Type, 10)
+plot_6 <- dist_bar_plot(ChocolateData, BeanOrigin, 10)
+grid_1 <- arrangeGrob(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, ncol = 2)
+ggsave(grid_1, file = here("../plots/grid_1.png"), height = 9, dpi = 200)
+plot_1 <- dist_bar_plot(ChocolateData, Company, 10)
+plot_2 <- dist_bar_plot(ChocolateData, BarOrigin, 10)
+plot_3 <- dist_bar_plot(ChocolateData, ReviewDate, 10)
+plot_4 <- dist_bar_plot(ChocolateData, Loc, 10)
+plot_5 <- dist_bar_plot(ChocolateData, Type, 10)
+plot_6 <- dist_bar_plot(ChocolateData, BeanOrigin, 10)
+grid_1 <- arrangeGrob(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, ncol = 2)
+ggsave(grid_1, file = here("plots/grid_1.png"), height = 9, dpi = 200)
+knitr::include_graphics(here("plots/grid_1.png"))
+Company_rating <- ChocolateData %>%
+group_by(Company) %>%
+summarize(rating = mean(Rating), count = n()) %>%
+arrange(desc(count),desc(rating));
+head(Company_rating, n = 10)
+ggplot(ChocolateData, aes(factor(Rating))) +
+geom_bar(fill = "chocolate4", aes(color = 'black'), size = 0.5, ) + xlab("Rating")
+summary(ChocolateData$Rating)
+ggplot(ChocolateData, aes(factor(Rating))) +
+geom_bar(fill = "chocolate4", aes(color = black), size = 0.5, ) + xlab("Rating")
+ggplot(ChocolateData, aes(factor(Rating))) +
+geom_bar(fill = "chocolate4", aes(color = "black"), size = 0.5, ) + xlab("Rating")
+summary(ChocolateData$Rating)
+ggplot(ChocolateData, aes(factor(Rating))) +
+geom_bar(fill = "chocolate4", aes(color = "black"), size = 0.1, ) + xlab("Rating")
+summary(ChocolateData$Rating)
+Company_rating <- ChocolateData %>%
+group_by(Company) %>%
+summarize(rating = mean(Rating), count = n()) %>%
+arrange(desc(count),desc(rating));
+head(Company_rating, n = 10)
+plot_1 <- dist_bar_plot(ChocolateData, Company, 10)
+plot_2 <- dist_bar_plot(ChocolateData, BarOrigin, 10)
+plot_3 <- dist_bar_plot(ChocolateData, ReviewDate, 10)
+plot_4 <- dist_bar_plot(ChocolateData, Loc, 10)
+plot_5 <- dist_bar_plot(ChocolateData, Type, 10)
+plot_6 <- dist_bar_plot(ChocolateData, BeanOrigin, 10)
+grid_1 <- arrangeGrob(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, ncol = 2)
+ggsave(grid_1, file = here("plots/grid_1.png"), height = 9, dpi = 200)
+knitr::include_graphics(here("plots/grid_1.png"))
+colnames(ChocolateData) <- c("Company", "BarOrigin", "REF", "ReviewDate", "CocoaPct", "Loc", "Rating", "Type", "BeanOrigin")
+ChocolateData$CocoaPct <- as.numeric(gsub("[%]", "", ChocolateData$CocoaPct))
+ChocolateData[, c(8,9)] <- sapply(ChocolateData[,c(8,9)], str_trim)
+is.na(ChocolateData) <- ChocolateData==''
+ChocolateData <- ChocolateData[, -3]
+str(ChocolateData)
+head(ChocolateData, 10)
+ggplot(ChocolateData, aes(factor(Rating))) +
+geom_bar(fill = "chocolate4", aes(color = "black"), size = 0.1, ) +
+xlab("Rating") +
+theme_economist()
+ggplot(ChocolateData, aes(factor(Rating))) +
+geom_bar(fill = "chocolate4", aes(color = "black"), size = 0.1, ) +
+xlab("Rating") +theme_economist()
+library(tidyverse)
+require(ggplot2)
+library(grid)
+library(gridExtra)
+library(psych)
+library(boot)
+library(MASS)
+library(broom)
+library(purrr)
+library(kableExtra)
+library(lavaan)
+library(ggthemes)
+library(tidyverse)
+require(ggplot2)
+library(grid)
+library(gridExtra)
+library(psych)
+library(boot)
+library(MASS)
+library(broom)
+library(purrr)
+library(kableExtra)
+library(lavaan)
+library(ggplot2)
+library(ggthemes)
+ggplot(ChocolateData, aes(factor(Rating))) +
+geom_bar(fill = "chocolate4", aes(color = "black"), size = 0.1, ) +
+xlab("Rating")
+summary(ChocolateData$Rating)
+ggplot(ChocolateData, aes(factor(Rating))) +
+geom_bar(fill = "chocolate4", aes(color = "black"), size = 0.1, ) +
+xlab("Rating") + scale_color_gradient(low='blue', high='red')
+ggplot(ChocolateData, aes(factor(Rating))) +
+geom_bar(fill = "chocolate4", aes(color = "black"), size = 0.1, ) +
+xlab("Rating")
+summary(ChocolateData$Rating)
+Rating_Pct_Com <- data.frame(RatingLev = c("Unpleasant","Disappointing","Satisfactory-Praiseworthy","Premium","Elite"),
+Rating = c("1 <= Rating < 2", "2 <= Rating < 3", "3 <= Rating <= 3.75", "3.75 < Rating <= 5", "Rating = 5"),
+Note =  c("Elite (Transcending beyond the ordinary limits)",
+"Premium (Superior flavor development, character and style)",
+"Satisfactory(3.0) to praiseworthy(3.75) (well made with special qualities)",
+"Disappointing (Passable but contains at least one significant flaw)",
+"Unpleasant (mostly unpalatable)"))
+print(Rating_Pct_Com)
+?kbl
+Rating_Pct_Com <- data.frame(RatingLev = c("Unpleasant","Disappointing","Satisfactory-Praiseworthy","Premium","Elite"),
+Rating = c("1 <= Rating < 2", "2 <= Rating < 3", "3 <= Rating <= 3.75", "3.75 < Rating <= 5", "Rating = 5"),
+Note =  c("Elite (Transcending beyond the ordinary limits)",
+"Premium (Superior flavor development, character and style)",
+"Satisfactory(3.0) to praiseworthy(3.75) (well made with special qualities)",
+"Disappointing (Passable but contains at least one significant flaw)",
+"Unpleasant (mostly unpalatable)"))
+kbl(Rating_Pct_Com, caption = "Chocolate Rating Description")
+p_Company_RatingCategory_bar_count <- ChocolateData %>%
+group_by(`Company`, `Rating`) %>%
+summarise(Count=n()) %>%
+ungroup() %>%
+spread(key=`Rating`, value=Count) %>%
+mutate_all(funs(ifelse(is.na(.),0,.))) %>%
+mutate(
+Count_All = rowSums(.[2:6]),
+Ranks = dense_rank(desc(Count_All))
+) %>%
+gather(key=`Rating`, value=Count, `Unpleasant`:Elite) %>%
+filter(Ranks<=10) %>%
+ggplot(
+aes(
+x=reorder(`Company`, Count),
+y=Count,
+fill=reorder(`Rating`, -Count)
+)
+) +
+geom_bar(stat = "identity") +
+scale_fill_viridis_d() +
+labs(x = "Company", y = "Count", fill ="Top10") +
+ggtitle("Company Top10 -Rating Category-") +
+coord_flip() +
+theme(
+#axis.text.x = element_text(angle = 70, vjust = 0.5),
+plot.title = element_text(size=16, lineheight=.9, family="Times", face="bold.italic")
+)
+p_Company_RatingCategory_bar_count <- ChocolateData %>%
+group_by(`Company`, `Rating`) %>%
+summarise(Count=n()) %>%
+ungroup() %>%
+spread(key=`Rating`, value=Count) %>%
+mutate_all(funs(ifelse(is.na(.),0,.))) %>%
+mutate(
+Count_All = rowSums(.[2:6]),
+Ranks = dense_rank(desc(Count_All))
+) %>%
+gather(key=`Rating`, value=Count) %>%
+filter(Ranks<=10) %>%
+ggplot(
+aes(
+x=reorder(`Company`, Count),
+y=Count,
+fill=reorder(`Rating`, -Count)
+)
+) +
+geom_bar(stat = "identity") +
+scale_fill_viridis_d() +
+labs(x = "Company", y = "Count", fill ="Top10") +
+ggtitle("Company Top10 -Rating Category-") +
+coord_flip() +
+theme(
+#axis.text.x = element_text(angle = 70, vjust = 0.5),
+plot.title = element_text(size=16, lineheight=.9, family="Times", face="bold.italic")
+)
+p_Company_RatingCategory_bar_count <- ChocolateData %>%
+group_by(`Company`, `Rating`) %>%
+summarise(Count=n()) %>%
+ungroup() %>%
+spread(key=`Rating`, value=Count) %>%
+mutate_all(funs(ifelse(is.na(.),0,.))) %>%
+mutate(
+Count_All = rowSums(.[2:6]),
+Ranks = dense_rank(desc(Count_All))
+) %>%
+gather(key=`Rating`, value=Count) %>%
+filter(Ranks<=10) %>%
+ggplot(
+aes(
+x=reorder(`Company`, Count),
+y=Count,
+fill=reorder(`Rating`, -Count)
+)
+) +
+geom_bar(stat = "identity") +
+scale_fill_viridis_d() +
+labs(x = "Company", y = "Count", fill ="Top10") +
+ggtitle("Company Top10 -Rating Category-") +
+coord_flip() +
+theme(
+#axis.text.x = element_text(angle = 70, vjust = 0.5),
+plot.title = element_text(size=16, lineheight=.9, family="Times", face="bold.italic")
+)
+ChocolateData %>%
+ggplot(aes(
+x=reorder(`Company)`, Count),
+y=Count,
+fill=reorder(`Rating`, -Count)
+))  +
+geom_bar(stat = "identity") +
+scale_fill_viridis_d() +
+labs(x = "Company", y = "Count", fill ="Top10") +
+ggtitle("Company Top10 -Rating Category-") +
+coord_flip() +
+theme(
+#axis.text.x = element_text(angle = 70, vjust = 0.5),
+plot.title = element_text(size=16, lineheight=.9, family="Times", face="bold.italic")
+)
+ChocolateData %>%
+ggplot(aes(
+x=reorder(Company), Count),
+y=Count,
+fill=reorder(Rating, -Count)
+))  +
+ChocolateData %>%
+ggplot(aes(
+x=reorder(Company), Count),
+y=Count,
+fill=reorder(Rating, -Count)
+)  +
+geom_bar(stat = "identity") +
+scale_fill_viridis_d() +
+labs(x = "Company", y = "Count", fill ="Top10") +
+ggtitle("Company Top10 -Rating Category-") +
+coord_flip() +
+theme(
+#axis.text.x = element_text(angle = 70, vjust = 0.5),
+plot.title = element_text(size=16, lineheight=.9, family="Times", face="bold.italic")
+)
+p_CompanyLocation_RatingCategory_bar_count <- ChocolateData %>%
+group_by(`Loc`, `Rating`) %>%
+summarise(Count=n()) %>%
+ungroup() %>%
+spread(key=`Rating`, value=Count) %>%
+mutate_all(funs(ifelse(is.na(.),0,.))) %>%
+mutate(
+Count_All = rowSums(.[2:6]),
+Ranks = dense_rank(desc(Count_All))
+) %>%
+gather(key=`Rating`, value=Count, `Unpleasant`:Elite) %>%
+filter(Ranks<=10) %>%
+ggplot(
+aes(
+x=reorder(`Company Location`, Count),
+y=Count,
+fill=reorder(`Rating Category`, -Count)
+)
+) +
+geom_bar(stat = "identity") +
+scale_fill_viridis_d() +
+labs(x = "Company Location", y = "Count", fill ="Top10") +
+ggtitle("Company Location Top10 -Rating Category-") +
+coord_flip() +
+theme(
+#axis.text.x = element_text(angle = 70, vjust = 0.5),
+plot.title = element_text(size=16, lineheight=.9, family="Times", face="bold.italic")
+)
+New_Chocolatedata <- ChocolateData %>%
+select(Rating) %>%
+group_by(Rating) %>%
+count() %>%
+filter(n > 20) %>%
+select(bean_type_simplified)
+New_Chocolatedata <- ChocolateData %>%
+select(Rating) %>%
+group_by(Rating) %>%
+count() %>%
+filter(n > 20) %>%
+select(New_Chocolatedata)
+ChocolateData%>%
+ggplot(aes(x = Rating, y = CocoaPct)) +
+geom_point() +
+labs(x = "Rating", y ="Cocoa percentage" ) +
+geom_smooth(method = "lm", se = FALSE, col = 'brown')
+ChocolateData %>%
+summary(CocoaPct) %>%
+boxplot(CocoaPct) %>%
+summary(Rating) %>%
+boxplot(Rating)
+View(ChocolateData)
+word_choc <- gsub(" ", "",ChocolateData$Loc)
+wordcloud(word_choc, max.words = 60, random.order = FALSE, scale = c(3,0.5), rot.per = 0.3, colors = brewer.pal(8, "Dark2"))
+library(tidyverse)
+require(ggplot2)
+library(grid)
+library(gridExtra)
+library(psych)
+library(boot)
+library(MASS)
+library(broom)
+library(purrr)
+library(kableExtra)
+library(lavaan)
+library(wordcloud)
+?library(wordcloud)
+library {base}
+library(tidyverse)
+require(ggplot2)
+library(grid)
+library(gridExtra)
+library(psych)
+library(boot)
+library(MASS)
+library(broom)
+library(purrr)
+library(kableExtra)
+library(lavaan)
+install.packages("wordcloud")
+library(wordcloud)
+install.packages("RColorBrewer")
+library(RColorBrewer)
+install.packages("wordcloud2)
+library(wordcloud2)
+install.packages("RColorBrewer")
+library(tidyverse)
+require(ggplot2)
+library(grid)
+library(gridExtra)
+library(psych)
+library(boot)
+library(MASS)
+library(broom)
+library(purrr)
+library(kableExtra)
+library(lavaan)
+install.packages("wordcloud")
+library(wordcloud)
+install.packages("RColorBrewer")
+library(RColorBrewer)
+install.packages("wordcloud2")
+library(wordcloud2)
+install.packages("RColorBrewer")
+word_choc <- gsub(" ", "",ChocolateData$Loc)
+wordcloud(word_choc, max.words = 60, random.order = FALSE, scale = c(3,0.5), rot.per = 0.3, colors = brewer.pal(8, "Dark2"))
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+require(ggplot2)
+library(grid)
+library(gridExtra)
+library(psych)
+library(boot)
+library(MASS)
+library(broom)
+library(purrr)
+library(kableExtra)
+library(lavaan)
+library(wordcloud)
+ChocolateData <- read.csv("../data/flavors_of_cacao.csv")
+str(ChocolateData)
+summary(ChocolateData)
+head(ChocolateData, 10)
+colnames(ChocolateData) <- c("Company", "BarOrigin", "REF", "ReviewDate", "CocoaPct", "Loc", "Rating", "Type", "BeanOrigin")
+ChocolateData$CocoaPct <- as.numeric(gsub("[%]", "", ChocolateData$CocoaPct))
+ChocolateData[, c(8,9)] <- sapply(ChocolateData[,c(8,9)], str_trim)
+is.na(ChocolateData) <- ChocolateData==''
+ChocolateData <- ChocolateData[, -3]
+str(ChocolateData)
+head(ChocolateData, 10)
+Company_rating <- ChocolateData %>%
+group_by(Company) %>%
+summarize(rating = mean(Rating), count = n()) %>%
+arrange(desc(count),desc(rating));
+head(Company_rating, n = 10)
+ggplot(ChocolateData, aes(factor(Rating))) +
+geom_bar(fill = "chocolate4", aes(color = "black"), size = 0.1, ) +
+xlab("Rating")
+summary(ChocolateData$Rating)
+plot_1 <- dist_bar_plot(ChocolateData, Company, 10)
+plot_2 <- dist_bar_plot(ChocolateData, BarOrigin, 10)
+plot_3 <- dist_bar_plot(ChocolateData, ReviewDate, 10)
+plot_4 <- dist_bar_plot(ChocolateData, Loc, 10)
+plot_5 <- dist_bar_plot(ChocolateData, Type, 10)
+plot_6 <- dist_bar_plot(ChocolateData, BeanOrigin, 10)
+grid_1 <- arrangeGrob(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, ncol = 2)
+ggsave(grid_1, file = here("plots/grid_1.png"), height = 9, dpi = 200)
+Company_rating <- ChocolateData %>%
+group_by(Company) %>%
+summarize(rating = mean(Rating), count = n()) %>%
+arrange(desc(count),desc(rating));
+head(Company_rating, n = 10)
+ggplot(ChocolateData, aes(factor(Rating))) +
+geom_bar(fill = "chocolate4", aes(color = "black"), size = 0.1, ) +
+xlab("Rating")
+summary(ChocolateData$Rating)
+Rating_Pct_Com <- data.frame(RatingLev = c("Unpleasant","Disappointing","Satisfactory-Praiseworthy","Premium","Elite"),
+Rating = c("1 <= Rating < 2", "2 <= Rating < 3", "3 <= Rating <= 3.75", "3.75 < Rating <= 5", "Rating = 5"),
+Note =  c("Elite (Transcending beyond the ordinary limits)",
+"Premium (Superior flavor development, character and style)",
+"Satisfactory(3.0) to praiseworthy(3.75) (well made with special qualities)",
+"Disappointing (Passable but contains at least one significant flaw)",
+"Unpleasant (mostly unpalatable)"))
+kbl(Rating_Pct_Com, caption = "Chocolate Rating Description")
+chocolateData_commonBeans$bean_type_simplified <- sub("^$", "Unknown", chocolateData_commonBeans$bean_type_simplified)
+word_choc <- gsub(" ", "",ChocolateData$Loc)
+wordcloud(word_choc, max.words = 60, random.order = FALSE, scale = c(3,0.5), rot.per = 0.3, colors = brewer.pal(8, "Dark2"))
+install.packages("pacman")
+pacman::p_load(tm)
+word_choc <- gsub(" ", "",ChocolateData$Loc)
+wordcloud(word_choc, max.words = 60, random.order = FALSE, scale = c(3,0.5), rot.per = 0.3, colors = brewer.pal(8, "Dark2"))
+install.packages("pacman")
+pacman::p_load(tm)
+word_choc <- gsub(" ", "",ChocolateData$Loc)
+wordcloud(word_choc, max.words = 60, random.order = FALSE, scale = c(3,0.5), rot.per = 0.3, colors = brewer.pal(8, "Chocolate4"))
+install.packages("pacman")
+install.packages("pacman")
+install.packages("pacman")
+pacman::p_load(tm)
+word_choc <- gsub(" ", "",ChocolateData$Loc)
+wordcloud(word_choc, max.words = 60, random.order = FALSE, scale = c(3,0.5), rot.per = 0.3, colors = brewer.pal(8, "Chocolate4"))

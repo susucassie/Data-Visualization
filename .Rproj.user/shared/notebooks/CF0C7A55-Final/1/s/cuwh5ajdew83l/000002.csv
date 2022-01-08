@@ -1,0 +1,7 @@
+"0","ChocolateData%>%"
+"0","  ggplot(aes(x = Rating, y = CocoaPct)) +"
+"0","  geom_point() +"
+"0","  labs(x = ""Rating"", y =""Cocoa percentage"" ) + "
+"0","  geom_smooth(method = ""lm"", se = FALSE, col = ""brown"")"
+"2","`geom_smooth()` using formula 'y ~ x'
+"

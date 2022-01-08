@@ -1,0 +1,6 @@
+"0","Company_rating <- ChocolateData %>%"
+"0","  group_by(Company) %>%"
+"0","  summarize(rating = mean(Rating), count = n()) %>%"
+"0","  arrange(desc(count),desc(rating));"
+"0",""
+"0","head(Company_rating, n = 10)"

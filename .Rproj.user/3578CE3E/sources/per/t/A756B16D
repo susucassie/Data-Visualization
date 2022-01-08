@@ -1,0 +1,30 @@
+{
+    "id": "A756B16D",
+    "path": "~/Documents/UT学习/21FA/R/Week14/Final/R/Final.Rmd",
+    "project_path": "R/Final.Rmd",
+    "type": "r_markdown",
+    "hash": "592034377",
+    "contents": "",
+    "dirty": false,
+    "created": 1638905973478.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "343,15",
+        "scrollLine": "335",
+        "last_setup_crc32": "3FC42B75bb338d19",
+        "rmdVisualMode": "false",
+        "rmdVisualModeLocation": "2:0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1638908490,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1638908490882,
+    "read_only": false,
+    "read_only_alternatives": []
+}

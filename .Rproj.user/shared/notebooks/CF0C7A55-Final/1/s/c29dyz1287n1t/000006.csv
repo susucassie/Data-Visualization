@@ -1,0 +1,12 @@
+"0","word_choc <- gsub("" "", """",ChocolateData$Loc)"
+"0","wordcloud(word_choc, max.words = 200, random.order = FALSE, scale = c(4,0.7), rot.per = 0.5, colors = brewer.pal(8, ""Dark2""))"
+"2","Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation) :"
+"2","
+ "
+"2"," transformation drops documents
+"
+"2","Warning in tm_map.SimpleCorpus(corpus, function(x) tm::removeWords(x, tm::stopwords())) :"
+"2","
+ "
+"2"," transformation drops documents
+"

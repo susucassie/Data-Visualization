@@ -1,0 +1,3 @@
+"0","ggplot(ChocolateData, aes(factor(Rating))) + "
+"0","  geom_bar(fill = ""steelblue"") + "
+"0","  xlab(""Rating"") "

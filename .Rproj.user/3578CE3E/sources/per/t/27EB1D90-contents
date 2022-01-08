@@ -1,0 +1,400 @@
+---
+title: "Coffee Review Exploratory Data Analysis"
+output: html_notebook
+---
+
+We are exploring data on reviews of coffee quality from different suppliers. The data was downloaded from [Kaggle](https://www.kaggle.com/volpatto/coffee-quality-database-from-cqi) - click on the link to visit the Dataset page.  
+
+```{r Load libraries and data, message=FALSE, include=FALSE}
+rm(list = ls())
+
+library(here)
+library(tidyverse)
+library(anytime)
+library(gridExtra)
+
+bean_data <- read.csv(here("data/raw/merged_data_cleaned.csv"), header = TRUE, stringsAsFactors = FALSE, 
+                      strip.white = TRUE, na.strings = c("", " "))
+
+```
+
+```{r Function definition, include=FALSE}
+dist_bar_plot <- function(df, var, top_num = NULL){
+  
+  new_var <- enquo(var)
+  title <- paste0("Distribution of ", deparse(substitute(var)))
+  
+  plot_df <- df %>% 
+    filter(is.na(!!new_var) == FALSE) %>%
+    group_by(!!new_var) %>% 
+    summarise(Count = n())
+  
+  if (is.null(top_num) == FALSE){
+    plot_df <- plot_df %>%
+      slice_max(Count, n = top_num)
+    
+    title <- paste0(title, ":\nTop ", top_num)
+  }
+  
+  plot_df <- plot_df %>%
+    arrange(-Count)
+  
+  plot <- ggplot(plot_df, aes(x = reorder(!!new_var, -Count), y = Count)) + 
+    geom_bar(stat = "identity", fill = "darkgray", colour = "black") +
+    theme_bw() + labs(x = "", y = "Count") + ggtitle(title) +
+    theme(axis.text.x  = element_text(angle = 90, hjust = 1))
+  
+  return(plot)
+}
+
+```
+
+The dataset contains `r nrow(bean_data)` rows and `r ncol(bean_data)` columns. Here are the first 10 rows.  
+
+```{r Data summary, echo=FALSE, message=FALSE}
+head(bean_data, 10)
+
+```
+
+The first column is an index, columns 2-20 give information on the coffee being assessed and columns 21-36 contain the quality measurements; columns 21-31 give cupping measurements and columns 32-36 give measurements for the green unroasted beans. Columns 37-40 give information on the coffee certification and columns 41-44 are derived from the farm altitude data.  
+
+Let's see summaries of each of the columns.  
+
+```{r Summary, echo=FALSE, message=FALSE, width=10}
+skimr::skim_without_charts(bean_data)
+```
+
+We can see that there is plenty of missing data in the character variables, while most of the numeric variables are complete. Some altitude data is missing.  
+
+## <span style="color:teal;">Data Cleaning</span>  
+
+Some of the coffee description columns are not of interest - ICO.Number and Lot.Number are just identifiers. Owner is lower case transformed Owner.1, so will be preferentially used.  
+
+There are several fields for the origin of the coffee, i.e. Owner, Farm.Name, Mill, Company, Producer and also In.Country.Partner. By far the most complete of these data is the Owner and this may be the best field to use, however some Owners list several Producers, which suggests different origins for these beans. Initially, we will just use Owner and not use Farm.Name, Company, Producer or In.Country.Partner.  
+
+Note that we have some weird characters present in the Owner and Region field. We can remove these using string replace. One of the samples has a rating of zero for all scores and can be removed as likely erroneous.   
+
+
+```{r Fix Characters, include=FALSE}
+bean_data <- bean_data %>%
+  filter(Total.Cup.Points != 0) %>%
+  mutate(Owner = str_replace_all(Owner, "[^a-zA-Z0-9 ]", ""),
+         Region = str_replace_all(Region, "[^a-zA-Z0-9 ]", ""),
+         Owner = str_trim(Owner),
+         Region = str_trim(Region))
+
+```
+
+Grading.Date will be transformed from a string to a date and sample Bag.Weight will be changed to a numeric, harmonising to kg units.  
+
+```{r Date and weight, include=FALSE}
+bean_data <- bean_data %>%
+  mutate(new_date = str_replace_all(Grading.Date, "(?<=[0-9])st", ""),
+         new_date = str_replace_all(new_date, "(?<=[0-9])nd", ""),
+         new_date = str_replace_all(new_date, "(?<=[0-9])rd", ""),
+         new_date = str_replace_all(new_date, "(?<=[0-9])th", ""),
+         new_date = anydate(new_date))
+
+bean_data$wt_in_lb <- str_detect(bean_data$Bag.Weight, "lb")
+
+bean_data <- bean_data %>%
+  mutate(new_wt = str_replace_all(bean_data$Bag.Weight, "[^[:digit:]]", ""),
+         new_wt = as.numeric(new_wt))
+
+bean_data$new_wt[which(bean_data$wt_in_lb == TRUE)] <- 
+  bean_data$new_wt[which(bean_data$wt_in_lb == TRUE)] / 2.20462
+
+```
+
+
+### <span style="color:steelblue;">Missing Data</span>  
+
+We will deal with missing data as follows: 
+
+* Those rows with missing Owner, we will replace the missing value with the Farm.Name
+* The one row with missing Country.Of.Origin is clearly from Colombia as clear from the Owner entry
+* Where Region data is missing, we will default to the Country
+* There is a small amount of missing data for Harvest.Year, where the rows could be removed
+* For Variety, we can't make deductions about missing values, so it's likely we will have to remove missing data
+* Similarly for Processing.Method, the missing data can't be assumed so will likely have to be removed
+* Color has some values of "None" which is assumed to be missing data, rather than the beans being colourless
+* Where altitude data is missing, we could impute the mean
+* One missing value for Quakers can be assumed to be 0
+
+
+```{r Fix Missing, include=FALSE}
+bean_data$Owner[which(is.na(bean_data$Owner) == TRUE)] <- bean_data$Farm.Name[which(is.na(bean_data$Owner) == TRUE)]
+bean_data$Country.of.Origin[which(is.na(bean_data$Country.of.Origin) == TRUE)] <- "Colombia"
+bean_data$Region[which(is.na(bean_data$Region) == TRUE)] <- 
+  tolower(bean_data$Country.of.Origin[which(is.na(bean_data$Region) == TRUE)])
+bean_data$Region[which(bean_data$Region == "")] <- 
+  tolower(bean_data$Country.of.Origin[which(bean_data$Region == "")])
+bean_data$Color[which(bean_data$Color == "None")] <- NA
+bean_data$Quakers[which(is.na(bean_data$Quakers) == TRUE)] <- 0
+
+prop_blue <- bean_data %>% 
+  select(Color) %>%
+  filter(is.na(Color) == FALSE) %>% 
+  mutate(col_blue = 1 - (as.numeric(Color == "Green"))) %>%
+  select(col_blue) %>%
+  unlist() %>%
+  mean()
+
+```
+
+### <span style="color:steelblue;">Data Correction</span>  
+
+The variable Harvest.Year has the year in various different formats and needs to be cleaned up. We will use the following rules for cleaning: we default to a single year value; where two years are given, we will use the second year; when no year is given we use NA. This variable can then be transformed to a numeric.  
+
+```{r Fix Year, message=FALSE, include=FALSE}
+bean_data$Harvest.Year[which(str_detect(bean_data$Harvest.Year, "[0-9]") == FALSE)] <- NA
+
+bean_data <- bean_data %>%
+  mutate(Harvest.Year = str_replace_all(bean_data$Harvest.Year, "[^[:digit:]]", ""),
+         Harvest.Year = substr(Harvest.Year, start = (nchar(Harvest.Year) - 3), stop = nchar(Harvest.Year)))
+
+bean_data$Harvest.Year[which(bean_data$Harvest.Year == "0809")] <- "2009"
+bean_data$Harvest.Year[which(bean_data$Harvest.Year == "410")] <- "2010"
+
+bean_data <- bean_data %>%
+  mutate(Harvest.Year = as.numeric(Harvest.Year))
+
+```
+
+
+
+```{r Fix altitude, message=FALSE, include=FALSE}
+bean_data$alt_in_feet <- str_detect(bean_data$Altitude, "f")
+bean_data$alt_in_feet[which(bean_data$Owner == "juan luis alvarado romero")] <- TRUE
+bean_data$alt_in_feet[which(bean_data$Country.of.Origin == "Myanmar")] <- TRUE
+bean_data$alt_in_feet[which(bean_data$X %in% c(1316, 1333))] <- TRUE
+
+bean_data$Altitude[which(str_detect(bean_data$Altitude, "[0-9]") == FALSE)] <- NA
+
+bean_data <- bean_data %>%
+  mutate(new_alt = str_replace_all(bean_data$Altitude, "[^[:digit:]]", ""),
+         low_alt = NA,
+         high_alt = NA)
+
+bean_data$new_alt[which(bean_data$Altitude == "12oo")] <- "1200"
+bean_data$new_alt[which(bean_data$Altitude == "1.2")] <- "1200"
+bean_data$new_alt[which(bean_data$Altitude == "1.3")] <- "1300"
+bean_data$new_alt[which(bean_data$new_alt == "190164")] <- "1902"
+bean_data$new_alt[which(bean_data$new_alt == "11000")] <- "1100"
+bean_data$new_alt[which(bean_data$new_alt == "110000")] <- "1100"
+bean_data$new_alt[which(bean_data$new_alt == "1002000")] <- "10002000"
+bean_data$new_alt[which(bean_data$new_alt == "18005900")] <- "1800"
+
+bean_data$low_alt[which(nchar(bean_data$new_alt) == 6)] <- 
+  substr(bean_data$new_alt[which(nchar(bean_data$new_alt) == 6)], start = 1, stop = 3)
+
+bean_data$high_alt[which(nchar(bean_data$new_alt) == 6)] <- 
+  substr(bean_data$new_alt[which(nchar(bean_data$new_alt) == 6)], start = 4, stop = 6)
+
+bean_data$low_alt[which(nchar(bean_data$new_alt) == 7)] <- 
+  substr(bean_data$new_alt[which(nchar(bean_data$new_alt) == 7)], start = 1, stop = 3)
+
+bean_data$high_alt[which(nchar(bean_data$new_alt) == 7)] <- 
+  substr(bean_data$new_alt[which(nchar(bean_data$new_alt) == 7)], start = 4, stop = 7)
+
+bean_data$low_alt[which(nchar(bean_data$new_alt) == 8)] <- 
+  substr(bean_data$new_alt[which(nchar(bean_data$new_alt) == 8)], start = 1, stop = 4)
+
+bean_data$high_alt[which(nchar(bean_data$new_alt) == 8)] <- 
+  substr(bean_data$new_alt[which(nchar(bean_data$new_alt) == 8)], start = 5, stop = 8)
+
+bean_data$low_alt[which(nchar(bean_data$new_alt) == 3)] <- bean_data$new_alt[which(nchar(bean_data$new_alt) == 3)]
+bean_data$high_alt[which(nchar(bean_data$new_alt) == 3)] <- bean_data$new_alt[which(nchar(bean_data$new_alt) == 3)]
+
+bean_data$low_alt[which(nchar(bean_data$new_alt) == 4)] <- bean_data$new_alt[which(nchar(bean_data$new_alt) == 4)]
+bean_data$high_alt[which(nchar(bean_data$new_alt) == 4)] <- bean_data$new_alt[which(nchar(bean_data$new_alt) == 4)]
+
+bean_data <- bean_data %>%
+  mutate(low_alt = as.numeric(low_alt),
+         high_alt = as.numeric(high_alt))
+
+bean_data$low_alt[which(bean_data$alt_in_feet == TRUE)] <- 
+  bean_data$low_alt[which(bean_data$alt_in_feet == TRUE)] / 3.28084
+
+bean_data$high_alt[which(bean_data$alt_in_feet == TRUE)] <- 
+  bean_data$high_alt[which(bean_data$alt_in_feet == TRUE)] / 3.28084
+
+bean_data <- bean_data %>%
+  mutate(mean_alt = (low_alt + high_alt) / 2,
+         range_alt = high_alt - low_alt)
+
+```
+
+Some of the altitude data also requires correction as it appears to have been entered incorrectly or misread. We will re-parse the original Altitude data to correct the errors. After re-parsing to numeric values for mean and range of altitude, the number of missing values becomes `r sum(is.na(bean_data$mean_alt))`.  
+
+Apart from in Hawaii and Puerto Rico, the United States does not produce coffee, so where Country.of.Origin has been given as United States, this appears to be a data error. We will fix this data using Region and Producer information.  
+
+```{r Fix Country, include=FALSE}
+bean_data$Country.of.Origin[which(str_detect(bean_data$Country.of.Origin, "Tanzania") == TRUE)] <- "Tanzania"
+
+bean_data$Country.of.Origin[which(bean_data$Region == "antioquia")] <- "Colombia"
+bean_data$Country.of.Origin[which(bean_data$Region == "berastagi")] <- "Indonesia"
+bean_data$Country.of.Origin[which(bean_data$Producer == "JuanAna Coffee Association")] <- "Guatemala"
+bean_data$Country.of.Origin[which(bean_data$Producer == "Sethuraman Estates")] <- "India"
+bean_data$Country.of.Origin[which(bean_data$Region == "kwanza norte province angola")] <- "Angola"
+
+```
+
+
+```{r Save data, message=FALSE, include=FALSE}
+save(bean_data, file= here("data/interim/bean_data_clean.RData"))
+```
+
+## <span style="color:teal;">Input Variables</span>  
+
+Let's look at distributions of the input variables. We will plot the categorical variables as bar charts, showing the most popular values.  
+
+```{r Input vars, echo=FALSE, message=FALSE}
+plot_1 <- dist_bar_plot(bean_data, Owner, 10)
+plot_2 <- dist_bar_plot(bean_data, Species)
+plot_3 <- dist_bar_plot(bean_data, Country.of.Origin, 10)
+plot_4 <- dist_bar_plot(bean_data, Variety, 10)
+plot_5 <- dist_bar_plot(bean_data, Processing.Method, 5)
+plot_6 <- dist_bar_plot(bean_data, Color)
+
+grid_1 <- arrangeGrob(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, ncol = 2)
+ggsave(grid_1, file = here("plots/grid_1.png"), height = 12, dpi = 200)
+
+knitr::include_graphics(here("/plots/grid_1.png"))
+```
+
+We will plot the numeric variables as histograms.  
+
+```{r Histograms, echo=FALSE, message=FALSE, warning=FALSE}
+plot_1 <- ggplot(bean_data, aes(Harvest.Year)) + geom_bar(fill = "darkgray", colour = "black") + theme_minimal()
+plot_2 <- ggplot(bean_data, aes(new_date)) + geom_density(fill = "darkgray", colour = "black") + theme_minimal() + 
+  labs(x = "Grading Date")
+plot_3 <- ggplot(bean_data, aes(mean_alt)) + geom_density(fill = "darkgray", colour = "black") + theme_minimal() + 
+  labs(x = "Mean Altitude (m)")
+plot_4 <- ggplot(bean_data, aes(new_wt)) + geom_density(fill = "darkgray", colour = "black") + theme_minimal() + 
+  labs(x = "Sample Weight (kg)") + xlim(0, 100)
+plot_5 <- ggplot(bean_data, aes(Moisture)) + geom_density(fill = "darkgray", colour = "black") + theme_minimal()
+plot_6 <- ggplot(bean_data, aes(Category.One.Defects)) + geom_density(fill = "darkgray", colour = "black") + 
+  theme_minimal()
+plot_7 <- ggplot(bean_data, aes(Category.Two.Defects)) + geom_density(fill = "darkgray", colour = "black") +
+  theme_minimal()
+plot_8 <- ggplot(bean_data, aes(Quakers)) + geom_bar(fill = "darkgray", colour = "black") +
+  theme_minimal()
+
+grid_2 <- arrangeGrob(plot_3, plot_1, plot_4, plot_2, plot_5, plot_6, plot_7, plot_8)
+ggsave(grid_2, file = here("plots/grid_2.png"), height = 9, dpi = 200)
+
+knitr::include_graphics(here("/plots/grid_2.png"))
+```
+
+What we've discovered from the input variables:
+
+* Only a very small number of Robusta beans have been graded
+* There are many different values for Owner of which most are of a low frequency
+* Country of origin is quite widely distributed with 36 countries represented - Mexico has the largest amount of data
+* We have 29 different varieties, with Caturra, Bourbon and Typica being most common
+* Most of the samples have been processed using the Washed / Wet method and the remainder are mostly Natural / Dry
+* Most of the green beans are coloured Green, the proportion with any Blue colour is `r round(prop_blue * 100, 0)`%
+* Coffee is mainly grown between 1000 and 2000 m; some is also grown at lower altitudes but very little is grown at higher altitudes
+* Samples are generally provided either in bags of <10 kg or 50-80 kg
+* Harvest.Year and Grading.Date show a similar pattern, suggesting that the age of the beans at grading is generally similar between samples; we don't know exactly when the beans were harvested so any calculation of age of beans using assumptions is prone to error
+* Some samples appear to be completely dry from their Moisture values, which seems a bit odd as the majority of samples have 0.08-0.14% water content
+* Bean defects of Category One are rare, as are Quakers
+* Bean defects of Category Two are more common and the distribution appears to be approximately log-normal
+
+## <span style="color:teal;">Output Variables</span>  
+
+We have 10 individual quality scores, plus a summed overall quality. Let's visualise how these scores are distributed.  
+
+```{r Output dist, echo=FALSE, message=FALSE}
+plot_1 <- ggplot(bean_data, aes(Aroma)) + geom_density(fill = "darkgray", colour = "black") + theme_minimal()
+plot_2 <- ggplot(bean_data, aes(Flavor)) + geom_density(fill = "darkgray", colour = "black") + theme_minimal()
+plot_3 <- ggplot(bean_data, aes(Aftertaste)) + geom_density(fill = "darkgray", colour = "black") + theme_minimal()
+plot_4 <- ggplot(bean_data, aes(Acidity)) + geom_density(fill = "darkgray", colour = "black") + theme_minimal()
+plot_5 <- ggplot(bean_data, aes(Body)) + geom_density(fill = "darkgray", colour = "black") + theme_minimal()
+plot_6 <- ggplot(bean_data, aes(Balance)) + geom_density(fill = "darkgray", colour = "black") + theme_minimal()
+plot_7 <- ggplot(bean_data, aes(Uniformity)) + geom_density(fill = "darkgray", colour = "black") + theme_minimal()
+plot_8 <- ggplot(bean_data, aes(Clean.Cup)) + geom_density(fill = "darkgray", colour = "black") + theme_minimal()
+plot_9 <- ggplot(bean_data, aes(Sweetness)) + geom_density(fill = "darkgray", colour = "black") + theme_minimal()
+plot_10 <- ggplot(bean_data, aes(Cupper.Points)) + geom_density(fill = "darkgray", colour = "black") + theme_minimal()
+plot_11 <- ggplot(bean_data, aes(Total.Cup.Points)) + geom_density(fill = "darkgray", colour = "black") + theme_minimal()
+
+grid_3 <- arrangeGrob(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, plot_7, plot_8, plot_9, plot_10, plot_11)
+ggsave(grid_3, file = here("plots/grid_3.png"), height = 12, dpi = 200)
+
+knitr::include_graphics(here("/plots/grid_3.png"))
+```
+
+From the output variables, we see:  
+
+* Aroma, Flavor, Aftertaste, Acidity, Body, Balance and overall Cupper.Points are similarly distributed with mean values around 7.5 and approximate range of 6.5-8.5
+* Uniformity, Clean.Cup and Sweetness are generally highly rated with little deviation from scores of 10
+* Total.Cup.Points has a distribution with a mean of approximately 83 and general range of 77-87
+
+We are really interested in **Total.Cup.Points** as our main quality variable, so let's look at how this output variable is impacted by the different input variables.  
+
+## <span style="color:teal;">Variable Relationships</span>  
+
+We can draw boxplots to illustrate relationships of Total.Cup.Points with categorical input variables.  
+
+```{r Box plots, echo=FALSE, message=FALSE}
+plot_1 <- ggplot(bean_data, aes(Species, Total.Cup.Points)) + geom_boxplot(fill = "darkgray") +
+  theme_minimal() + coord_flip() + ggtitle("Effect of Species on Total.Cup.Points")
+plot_2 <- ggplot(bean_data, aes(Country.of.Origin, Total.Cup.Points)) + geom_boxplot(fill = "darkgray") +
+  theme_minimal() + coord_flip() + ggtitle("Effect of Country.of.Origin on Total.Cup.Points")
+plot_3 <- ggplot(bean_data, aes(Variety, Total.Cup.Points)) + geom_boxplot(fill = "darkgray") +
+  theme_minimal() + coord_flip() + ggtitle("Effect of Variety on Total.Cup.Points")
+plot_4 <- ggplot(bean_data, aes(Processing.Method, Total.Cup.Points)) + geom_boxplot(fill = "darkgray") +
+  theme_minimal() + coord_flip() + ggtitle("Effect of Processing.Method on Total.Cup.Points")
+plot_5 <- ggplot(bean_data, aes(Color, Total.Cup.Points)) + geom_boxplot(fill = "darkgray") +
+  theme_minimal() + coord_flip() + ggtitle("Effect of Color on Total.Cup.Points")
+
+ggsave(plot_1, file = here("plots/plot_1.png"), height = 2, dpi = 200)
+knitr::include_graphics(here("/plots/plot_1.png"))
+
+ggsave(plot_2, file = here("plots/plot_2.png"), height = 8, dpi = 200)
+knitr::include_graphics(here("/plots/plot_2.png"))
+
+ggsave(plot_3, file = here("plots/plot_3.png"), height = 6, dpi = 200)
+knitr::include_graphics(here("/plots/plot_3.png"))
+
+ggsave(plot_4, file = here("plots/plot_4.png"), height = 3, dpi = 200)
+knitr::include_graphics(here("/plots/plot_4.png"))
+
+ggsave(plot_5, file = here("plots/plot_5.png"), height = 3, dpi = 200)
+knitr::include_graphics(here("/plots/plot_5.png"))
+
+
+```
+
+What do these relationships tell us?
+
+* Arabica beans tend to give slightly higher scores than Robusta
+* We see more variation in scores with Country.of.Origin and bean Variety - Ethiopian Yirgacheffe appears to be generally the coffee with highest scores
+* We see less variation in scores with Processing.Method and Color
+
+We can draw scatter plots to illustrate relationships of Total.Cup.Points with numeric input variables.  
+
+```{r Scatter plots, echo=FALSE, message=FALSE, warning=FALSE}
+plot_df <- bean_data %>%
+  mutate(Sample.Weight = new_wt,
+         Grading.Date = new_date,
+         Mean.Altitude = mean_alt) %>%
+  pivot_longer(cols = c("Mean.Altitude", "Harvest.Year", "Sample.Weight", "Moisture", "Category.One.Defects", 
+                        "Category.Two.Defects", "Quakers"), names_to = "variable", values_to = "value")
+
+plot_1 <- ggplot(plot_df, aes(value, Total.Cup.Points)) + geom_point() + 
+  facet_wrap(~ variable, scales = "free_x", ncol = 2) + theme_bw()
+
+ggsave(plot_1, file = here("plots/plot_1.png"), height = 12, dpi = 200)
+
+knitr::include_graphics(here("/plots/plot_1.png"))
+```
+
+There are no clear trends in these relationships. However, the best scores, i.e. >85 Total.Cup.Points, tend to only be seen when the number of defects and Quakers are low. Quality appears to perhaps increase up to around 2000 m altitude, and then decrease for the few coffees at higher altitudes.  
+
+We can now take this data forward in an attempt to model Total.Cup.Points.  
+
+***
+
+End

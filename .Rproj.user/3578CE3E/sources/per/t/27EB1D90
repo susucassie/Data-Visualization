@@ -1,0 +1,27 @@
+{
+    "id": "27EB1D90",
+    "path": "~/Downloads/coffee_EDA.Rmd",
+    "project_path": null,
+    "type": "r_markdown",
+    "hash": "2275624997",
+    "contents": "",
+    "dirty": false,
+    "created": 1638907743994.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "chunk_output_type": "inline",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "322,0",
+        "scrollLine": "304"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1638653976,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1638653976,
+    "read_only": false,
+    "read_only_alternatives": []
+}
